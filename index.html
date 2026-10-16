@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MARS · Meteorological Aviation Reporting System</title>
+<link rel="icon" type="image/png" href="logo/logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="sop.css">
+</head>
+<body data-view="login" data-sec="all">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="hero-art" viewBox="0 0 1200 140" preserveAspectRatio="xMaxYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14305e"/><stop offset=".45" stop-color="#5a4a86"/><stop offset=".75" stop-color="#e8804d"/><stop offset="1" stop-color="#f7b267"/></linearGradient>
+    <radialGradient id="sun" cx=".72" cy=".72" r=".45"><stop offset="0" stop-color="#ffd08a" stop-opacity=".95"/><stop offset="1" stop-color="#ffd08a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="140" fill="url(#sky)"/><rect width="1200" height="140" fill="url(#sun)"/>
+  <path d="M560 102h330v-7h40v7h250v38H560z" fill="#1b2340"/>
+  <rect x="907" y="62" width="6" height="42" fill="#151b33"/><rect x="898" y="46" width="24" height="12" rx="2" fill="#1c2547"/>
+  <path d="M895 46h30l-6-7h-18z" fill="#151b33"/><line x1="910" y1="26" x2="910" y2="39" stroke="#151b33" stroke-width="2"/><rect x="900" y="50" width="20" height="3" fill="#ffcf7a"/>
+  <rect y="102" width="1200" height="38" fill="#121a33"/>
+  <polygon points="700,140 1100,140 960,102 900,102" fill="#1a2140"/>
+  <g fill="#ffc857">
+    <circle cx="900" cy="102" r="1.2"/><circle cx="860" cy="109.6" r="1.6"/><circle cx="820" cy="117.2" r="2"/><circle cx="780" cy="124.8" r="2.4"/><circle cx="740" cy="132.4" r="2.8"/>
+    <circle cx="960" cy="102" r="1.2"/><circle cx="988" cy="109.6" r="1.6"/><circle cx="1016" cy="117.2" r="2"/><circle cx="1044" cy="124.8" r="2.4"/><circle cx="1072" cy="132.4" r="2.8"/>
+    <circle cx="600" cy="104" r="1.3"/><circle cx="640" cy="104" r="1.3"/><circle cx="680" cy="104" r="1.3"/><circle cx="1140" cy="104" r="1.3"/><circle cx="1170" cy="104" r="1.3"/>
+  </g>
+  <g fill="#e9eefb" opacity=".8"><rect x="929" y="106" width="2" height="4"/><rect x="929" y="114" width="2.4" height="6"/><rect x="928.5" y="124" width="3" height="9"/></g>
+</symbol>
+<symbol id="i-plane" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-wind" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+<symbol id="i-road" viewBox="0 0 24 24"><path d="M8 3 3.5 21M16 3l4.5 18M12 4v3M12 10v3M12 16v4"/></symbol>
+<symbol id="i-therm" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+<symbol id="i-rain" viewBox="0 0 24 24"><line x1="16" y1="13" x2="16" y2="21"/><line x1="8" y1="13" x2="8" y2="21"/><line x1="12" y1="15" x2="12" y2="23"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 12l4-4M12 6v.01M6 12h.01M18 12h.01"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+<symbol id="i-balloon" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M9 20h6M12 15v5"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7M9 11h7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-go" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+</defs></svg>
+
+<div class="top">
+  <div class="brand"><svg class="ic"><use href="#i-plane"/></svg><span class="bn"><strong>MARS</strong><small>Meteorological Aviation Reporting System</small></span></div>
+  <nav class="tabs">
+    <a href="#dashboard" data-v="dash" class="on"><svg class="ic"><use href="#i-home"/></svg><span>Dashboard</span></a>
+    <a href="#metar" data-v="metar"><svg class="ic"><use href="#i-plane"/></svg><span>METAR / SPECI</span></a>
+  </nav>
+  <select form="mf" name="station" id="id_station"><option value="44" selected>AMS GOA (VOGA)</option><option value="45">AMS KOLHAPUR (VAKP)</option></select>
+  <div class="sp"></div>
+  <div class="clkc"><svg class="ic"><use href="#i-clock"/></svg><div><div class="t"><span id="clk">--:--:--</span> <span class="z">UTC</span></div><div class="d" id="clkd">&nbsp;</div></div></div>
+  <div class="st"><span class="dot"></span><div><b id="stI">----</b><small id="stN"></small></div></div>
+  <button type="button" class="lo" id="acctBtn"><svg class="ic"><use href="#i-user"/></svg><span>Account</span></button>
+  <button type="button" class="lo" id="logoutBtn"><svg class="ic"><use href="#i-out"/></svg><span>Log out</span></button>
+</div>
+
+<div class="wrap">
+<nav class="side">
+  <div class="sg" id="sg-dash">
+    <a href="#" data-s="all" class="on"><svg class="ic"><use href="#i-home"/></svg>Overview</a>
+    <a href="#" data-s="s-av"><svg class="ic"><use href="#i-plane"/></svg>Aviation</a>
+    <a href="#" data-s="s-syn"><svg class="ic"><use href="#i-gauge"/></svg>Synop</a>
+    <a href="#" data-s="s-warn"><svg class="ic"><use href="#i-warn"/></svg>Warnings</a>
+    <a href="#" data-s="s-log"><svg class="ic"><use href="#i-doc"/></svg>Logs</a>
+    <a href="#" data-s="s-rep"><svg class="ic"><use href="#i-link"/></svg>Reports</a>
+  </div>
+  <div class="sg" id="sg-metar">
+    <a href="#" data-k="data_datetime" class="on"><svg class="ic"><use href="#i-doc"/></svg>Report</a>
+    <a href="#" data-k="wind"><svg class="ic"><use href="#i-wind"/></svg>Wind</a>
+    <a href="#" data-k="visibility"><svg class="ic"><use href="#i-eye"/></svg>Visibility</a>
+    <a href="#" data-k="weather"><svg class="ic"><use href="#i-rain"/></svg>Weather</a>
+    <a href="#" data-k="active_rwy_1"><svg class="ic"><use href="#i-road"/></svg>RVR</a>
+    <a href="#" data-k="cloud_1"><svg class="ic" style="fill:currentColor"><use href="#i-cloud"/></svg>Clouds</a>
+    <a href="#" data-k="temperature"><svg class="ic"><use href="#i-therm"/></svg>Temp</a>
+    <a href="#" data-k="qnh"><svg class="ic"><use href="#i-gauge"/></svg>QNH</a>
+    <a href="#" data-k="trend"><svg class="ic"><use href="#i-chart"/></svg>Trend</a>
+    <a href="#" data-k="remarks"><svg class="ic"><use href="#i-msg"/></svg>RMK</a>
+    <button type="button" class="sopbtn" id="sopBtn" title="Standard Observational Procedure"><svg class="ic"><use href="#i-book"/></svg>SOP</button>
+  </div>
+  <div class="sidef">
+    <svg viewBox="0 0 196 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#dbe6f6"/></linearGradient></defs>
+      <rect width="196" height="130" fill="url(#sg)"/>
+      <path d="M0 96h70v-8h14v8h40v10H0z" fill="#b3c6e2"/><rect x="0" y="104" width="196" height="26" fill="#9fb6d8"/>
+      <rect x="97" y="52" width="9" height="56" fill="#7f9bc4"/><rect x="88" y="36" width="27" height="15" rx="3" fill="#6f8cb8"/>
+      <path d="M86 36h31l-8-9H94z" fill="#7f9bc4"/><line x1="101.5" y1="12" x2="101.5" y2="27" stroke="#7f9bc4" stroke-width="2"/>
+      <use href="#i-plane" x="12" y="48" width="30" height="30" style="color:#7f9bc4" transform="rotate(72 27 63)"/>
+      <path d="M0 78h22" stroke="#c6d5ec" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div><b id="sideI">----</b><span id="sideN"></span></div>
+  </div>
+</nav>
+
+<main class="main" id="main">
+
+<div class="view" id="v-login">
+  <section class="auth">
+    <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+    <div class="flyer"><i></i><svg class="ic"><use href="#i-plane"/></svg></div>
+    <div class="flyer r"><i></i><svg class="ic"><use href="#i-plane"/></svg></div>
+    <h2 class="mars-title"><span><b>M</b>eteorological</span> <span><b>A</b>viation</span> <span><b>R</b>eporting</span> <span><b>S</b>ystem</span></h2>
+    <div class="auth-card" data-mode="login">
+      <div class="ah">
+        <img src="logo/logo.png" alt="IMD" onerror="this.remove()">
+        <div><b>India Meteorological Department</b><span>Ministry of Earth Sciences, Government of India</span></div>
+        <img src="logo/logo2.png" alt="MoES" onerror="this.remove()">
+      </div>
+      <h1 id="authTitle">LOGIN</h1>
+      <form id="loginForm" novalidate>
+        <p class="auth-err" id="authErr"></p>
+        <div class="cell rq"><div class="cl"><label for="user">Username</label></div><div class="cv"><input type="text" name="username" id="user" autocomplete="username" required></div></div>
+        <div class="cell rq"><div class="cl"><label for="pw">Password</label></div><div class="cv"><input type="password" name="password" id="pw" autocomplete="current-password" required><button type="button" class="now" id="pwToggle">Show</button></div></div>
+        <button type="submit" class="btn p"><svg class="ic"><use href="#i-send"/></svg>Sign in</button>
+        <div class="alts"><button type="button" class="alt" id="goForgot">Forgot password?</button><button type="button" class="alt" id="goAdd">Add new airport</button></div>
+      </form>
+      <form id="addForm" novalidate>
+        <p class="auth-err" id="addErr"></p>
+        <p class="hint">Admin login is required to add an airport.</p>
+        <div class="two"><div class="cell rq"><div class="cl"><label for="ad_au">Admin username</label></div><div class="cv"><input type="text" id="ad_au" autocomplete="off"></div></div><div class="cell rq"><div class="cl"><label for="ad_ap">Admin password</label></div><div class="cv"><input type="password" id="ad_ap" autocomplete="off"></div></div></div>
+        <div class="two"><div class="cell rq"><div class="cl"><label for="ad_icao">ICAO code</label></div><div class="cv"><input type="text" id="ad_icao" autocomplete="off" maxlength="4" spellcheck="false"></div></div><div class="cell rq"><div class="cl"><label for="ad_name">Station name</label></div><div class="cv"><input type="text" id="ad_name" autocomplete="off" maxlength="40"></div></div></div>
+        <div class="two"><div class="cell rq"><div class="cl"><label for="ad_pw">Password</label></div><div class="cv"><input type="password" id="ad_pw" autocomplete="off"></div></div><div class="cell rq"><div class="cl"><label for="ad_pw2">Confirm password</label></div><div class="cv"><input type="password" id="ad_pw2" autocomplete="off"></div></div></div>
+        <p class="hint">The username for this airport is its ICAO code in lowercase.</p>
+        <button type="submit" class="btn p">Add airport</button>
+        <button type="button" class="alt" data-back>Back to login</button>
+      </form>
+      <form id="fgForm" novalidate>
+        <p class="auth-err" id="fgErr"></p>
+        <p class="hint">Admin login is required to reset a station password.</p>
+        <div class="cell rq"><div class="cl"><label for="fg_u">Station username</label></div><div class="cv"><input type="text" id="fg_u" autocomplete="off"></div></div>
+        <div class="two"><div class="cell rq"><div class="cl"><label for="fg_au">Admin username</label></div><div class="cv"><input type="text" id="fg_au" autocomplete="off"></div></div><div class="cell rq"><div class="cl"><label for="fg_ap">Admin password</label></div><div class="cv"><input type="password" id="fg_ap" autocomplete="off"></div></div></div>
+        <div class="two"><div class="cell rq"><div class="cl"><label for="fg_p">New password</label></div><div class="cv"><input type="password" id="fg_p" autocomplete="off"></div></div><div class="cell rq"><div class="cl"><label for="fg_p2">Confirm password</label></div><div class="cv"><input type="password" id="fg_p2" autocomplete="off"></div></div></div>
+        <button type="submit" class="btn p">Reset password</button>
+        <button type="button" class="alt" data-back>Back to login</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<div class="view" id="v-dash">
+  <section class="hero lg" id="top">
+    <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+    <img class="logo" src="logo/logo.png" alt="IMD" onerror="this.remove()">
+    <div><h1>MARS</h1><p class="ff"><b>M</b>eteorological <b>A</b>viation <b>R</b>eporting <b>S</b>ystem</p><p>India Meteorological Department · Ministry of Earth Sciences</p></div>
+    <div class="who"><b id="whoName">Welcome</b><span id="whoStn"></span><em>Login successful</em></div>
+    <img class="logo" src="logo/logo2.png" alt="MoES" onerror="this.remove()">
+  </section>
+
+  <section class="dgrid">
+    <article class="tile k1" id="s-av"><svg class="ic"><use href="#i-plane"/></svg>
+      <div class="tb"><h3>Aviation message</h3><p>Routine and special aerodrome weather reports</p>
+        <div class="row"><a class="btn p" href="#metar"><svg class="ic"><use href="#i-send"/></svg>Submit METAR/SPECI</a></div></div></article>
+
+    <article class="tile k2" id="s-syn"><svg class="ic"><use href="#i-gauge"/></svg>
+      <div class="tb"><h3>Synop message</h3><p>Surface synoptic observation</p>
+        <div class="row"><a class="btn p" href="synop_VOGA.php"><svg class="ic"><use href="#i-send"/></svg>Submit SYNOP/SPECIAL</a></div></div></article>
+
+    <article class="tile k6" id="s-warn"><svg class="ic"><use href="#i-warn"/></svg>
+      <div class="tb"><h3>Aerodrome warning</h3><p>Issue a new warning or check the one in force</p>
+        <div class="row"><a class="btn p" href="aerodrome_warning_VOGA.php">Warning required</a><a class="btn" href="latest_warning_VOGA.php">Latest warning</a></div></div></article>
+
+    <article class="tile k3" id="s-log"><svg class="ic"><use href="#i-doc"/></svg>
+      <div class="tb"><h3>Logs · current month</h3><p id="logMonth">Submission logs</p>
+        <div class="row">
+          <button type="button" class="btn" data-log="METAR">METAR</button>
+          <button type="button" class="btn" data-log="SYNOP">SYNOP</button>
+          <button type="button" class="btn" data-log="forced_submission">Forced submission</button>
+        </div></div></article>
+
+    <article class="tile k5 wide" id="s-rep"><svg class="ic"><use href="#i-link"/></svg>
+      <div class="tb"><h3>Reports and data</h3><p>Display, archive, print and verification products</p>
+        <div class="row">
+          <a class="chip" href="met_report_VOGA.php" target="_blank">MET report display</a>
+          <a class="chip" href="met_archive_VOGA.php" target="_blank">MET report archive</a>
+          <a class="chip" href="print_two_VOGA.php" target="_blank">Print latest MET report</a>
+          <a class="chip" href="forecast_product_VOGA.php">Products for forecast verification</a>
+          <a class="chip" href="clims_VOGA.php">Climatological data</a>
+          <a class="chip" href="current_weather_page1_VOGA.php" target="_blank">Current weather register</a>
+        </div></div></article>
+  </section>
+</div>
+
+<div class="view" id="v-metar">
+<form method="post" action="metar_VOGA.php" id="mf" novalidate>
+
+<section class="hero">
+  <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+  <div><h1 id="heroI">----</h1><p id="heroN"></p></div>
+  <div class="seg"><label><input type="radio" name="metar_specification" value="METAR" id="id_metar_specification" checked><span>METAR</span></label><label><input type="radio" name="metar_specification" value="SPECI"><span>SPECI</span></label></div>
+</section>
+
+<section class="panel p-date" data-k="data_datetime">
+  <div class="ph" aria-label="Report"><svg class="ic"><use href="#i-cal"/></svg></div>
+  <div class="grid vd">
+    <div class="cell" data-tip="DD/MM/YYYY HH:mm UTC · e.g. 16/10/2026 06:00 UTC · NOW fills current UTC time"><div class="cl"><label for="id_data_datetime">Data Date &amp; Time (UTC)</label><em class="er"></em></div><div class="cv"><input type="text" name="data_datetime" id="id_data_datetime" autocomplete="off"><button type="button" class="now" id="nowBtn">NOW</button></div></div>
+    <div data-f="metar_date" data-ic="cal"></div>
+    <div data-f="metar_time" data-ic="clock"></div>
+    <div data-f="metar_cca"></div>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="card k1" data-k="wind"><svg class="ic"><use href="#i-wind"/></svg>
+    <div class="body"><div data-f="wind" data-u="KT" class="big"></div><div data-f="wind_maximum" class="big sm inl"></div></div></div>
+  <div class="card k2" data-k="visibility"><svg class="ic"><use href="#i-eye"/></svg>
+    <div class="body row"><div data-f="visibility" class="big"></div><div data-f="sector_visibility" data-u="m" class="big sm vsplit"></div></div></div>
+  <div class="card k3" data-k="weather"><svg class="ic"><use href="#i-cloud"/></svg>
+    <div class="body"><div data-f="weather" class="big"></div></div></div>
+  <div class="card k4" data-k="weather"><svg class="ic"><use href="#i-rain"/></svg>
+    <div class="body"><div data-f="significant_weather" class="big"></div></div></div>
+  <div class="card k5" data-k="weather"><svg class="ic"><use href="#i-sun"/></svg>
+    <div class="body"><div data-f="present_weather" class="big"></div></div></div>
+  <div class="card k6" data-k="weather"><svg class="ic"><use href="#i-warn"/></svg>
+    <div class="body"><div data-f="past_weather" class="big"></div></div></div>
+</section>
+
+<section class="panel p-rvr" data-k="active_rwy_1">
+  <div class="ph"><svg class="ic"><use href="#i-road"/></svg><span>RVR (m)</span></div>
+  <div class="grid vd">
+    <div class="pair"><div data-f="active_rwy_1"></div><div data-f="rvr_1"></div></div>
+    <div class="pair"><div data-f="active_rwy_2"></div><div data-f="rvr_2"></div></div>
+    <div class="pair"><div data-f="active_rwy_3"></div><div data-f="rvr_3"></div></div>
+    <div class="pair"><div data-f="active_rwy_4"></div><div data-f="rvr_4"></div></div>
+  </div>
+</section>
+
+<section class="panel p-cld" data-k="cloud_1">
+  <div class="ph"><svg class="ic" style="fill:currentColor"><use href="#i-cloud"/></svg><span>CLOUDS</span></div>
+  <div class="grid">
+    <div data-f="vertical_cloud"></div>
+    <div data-f="cloud_1"></div><div data-f="cloud_2"></div><div data-f="cloud_3"></div><div data-f="cloud_4"></div>
+    <div data-f="individual_cloud" class="wide"></div>
+    <div data-f="total_cloud" class="tot"></div>
+  </div>
+</section>
+
+<section class="panel p-tmp" data-k="temperature">
+  <div class="ph" aria-label="Temp / QNH"><svg class="ic"><use href="#i-therm"/></svg></div>
+  <div class="grid">
+    <div data-f="temperature"></div><div data-f="dewpoint"></div><div data-f="qnh"></div><div data-f="qfe"></div>
+  </div>
+</section>
+
+<section class="panel p-trd" data-k="trend">
+  <div class="ph"><svg class="ic"><use href="#i-chart"/></svg><span>Trend / RMK</span></div>
+  <div class="grid">
+    <div data-f="trend" class="inl"></div>
+    <div data-f="remarks" class="inl"></div>
+    <div data-f="remarks1" class="inl"></div>
+    <div class="pair2"><div data-f="remarks2" class="inl"></div><div data-f="remarks3" class="inl"></div></div>
+  </div>
+</section>
+
+<div class="foot">
+  <div class="fc fo rq" data-tip="Name or initials of the tower met officer · max 50 characters"><svg class="ic"><use href="#i-user"/></svg><div class="fb"><div class="cl"><label for="id_tower_met_officer">Tower Met Officer</label><em class="er"></em></div><input type="text" name="tower_met_officer" id="id_tower_met_officer" maxlength="50" autocomplete="off" required></div></div>
+  <div class="fc fn" data-tip="Optional internal note · not part of the METAR message"><svg class="ic"><use href="#i-doc"/></svg><div class="fb"><div class="cl"><label for="id_metar_state_note">Notes</label></div><textarea name="metar_state_note" id="id_metar_state_note" rows="1"></textarea></div></div>
+  <div class="act"><span class="msg" id="msg"></span><button type="button" class="btn sopfoot" id="sopFoot"><svg class="ic"><use href="#i-book"/></svg>SOP</button><button type="reset" class="btn"><svg class="ic"><use href="#i-reset"/></svg>Reset</button><button type="submit" class="btn p" name="submit_metar"><svg class="ic"><use href="#i-send"/></svg>Submit</button></div>
+</div>
+
+</form>
+</div>
+
+</main>
+</div>
+
+<div id="tip" role="tooltip"></div>
+<dialog id="acct">
+  <form id="acForm" class="dlg" novalidate>
+    <h2>Set username &amp; password</h2>
+    <p>Saved in this browser only. It replaces the temporary login for this station.</p>
+    <p class="auth-err" id="acErr"></p>
+    <div class="cell rq"><div class="cl"><label for="acCur">Current password</label></div><div class="cv"><input type="password" id="acCur" autocomplete="current-password"></div></div>
+    <div class="cell"><div class="cl"><label for="acU">Username</label></div><div class="cv"><input type="text" id="acU" autocomplete="username" maxlength="20"></div></div>
+    <div class="cell"><div class="cl"><label for="acP">New password</label></div><div class="cv"><input type="password" id="acP" autocomplete="new-password" placeholder="Leave blank to keep current"></div></div>
+    <div class="cell"><div class="cl"><label for="acC">Confirm password</label></div><div class="cv"><input type="password" id="acC" autocomplete="new-password"></div></div>
+    <div class="row"><button type="button" class="btn" id="acReset">Reset to temporary</button><button type="button" class="btn" id="acCancel">Cancel</button><button type="submit" class="btn p">Save</button></div>
+  </form>
+</dialog>
+<dialog id="sop" aria-labelledby="sopT">
+  <header class="sop-h">
+    <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+    <svg class="ic sop-hi" aria-hidden="true"><use href="#i-book"/></svg>
+    <div class="sop-ht"><h2 id="sopT">SOP</h2><p>Standard Observational Procedure · METAR / SPECI · IMD Aviation</p></div>
+    <div class="sop-hs"><span id="sopStn"></span><span id="sopTyp"></span></div>
+    <button type="button" class="sop-cl" id="sopClose" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+  </header>
+  <div class="sop-b">
+    <nav class="sop-n" id="sopNav" aria-label="SOP sections"></nav>
+    <section class="sop-m" id="sopMain" tabindex="-1"></section>
+  </div>
+</dialog>
+<script src="app.js"></script>
+<script src="sop.js"></script>
+</body>
+</html>
