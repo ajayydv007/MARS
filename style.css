@@ -135,9 +135,14 @@ form#mf{flex:1 0 auto;display:flex;flex-direction:column;gap:var(--gap)}
 .p-trd .cell.bad .cl label{color:var(--bad)}
 
 .cards{flex:1 0 auto;display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-.cards>.k1{grid-column:span 3}.cards>.k2{grid-column:span 5}.cards>.k3,.cards>.k4,.cards>.k5,.cards>.k6{grid-column:span 4}
-.cards>.k4 .big,.cards>.k5 .big,.cards>.k6 .big{--fv:clamp(19px,2.5vh,25px)}
-.cards>.k4 .cl label,.cards>.k5 .cl label,.cards>.k6 .cl label{white-space:nowrap}
+.cards>.k1,.cards>.k7,.cards>.k2{grid-column:span 4}
+.k7{--g:#0e7490;--gi:#0b1b3a;--c1:#c8eef5;--c2:#e3f7fb}
+.card .body.row>.big:first-child{flex:1.35}
+.card .body.row{gap:10px}.card .body.row>.vsplit{padding-left:10px;min-width:0}
+.cards .sm .cl label{font-size:13px}
+.card .body.row>.vsplit{flex:1}
+.p-wx{--g:#c2640a;--pb:linear-gradient(90deg,#fdeedd,#fff7ee);--pl:#f6d7b8}
+.p-wx .grid{grid-template-columns:3.4fr 1.3fr 1.3fr 1.3fr}
 .card{display:flex;gap:10px;padding:var(--pv) 14px;border-radius:12px;border:1px solid color-mix(in srgb,var(--g) 20%,#fff);background:linear-gradient(180deg,var(--c1),var(--c2));min-width:0;box-shadow:0 2px 6px rgba(15,40,90,.06)}
 .card>.ic{width:clamp(30px,4.2vh,40px);height:clamp(30px,4.2vh,40px);color:var(--g);margin-top:2px}
 .card .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;justify-content:center}
@@ -150,7 +155,6 @@ form#mf{flex:1 0 auto;display:flex;flex-direction:column;gap:var(--gap)}
 .big .u{background:none;border:0;padding:0 0 4px 8px;align-self:flex-end;font-size:17px;font-weight:600}
 .big.cell.bad .cv{background:#fff1f3;box-shadow:0 2px 0 var(--bad);border-bottom-color:var(--bad)}
 .sm{--fv:clamp(16px,2.6vh,21px)}
-.k3 .big{--fv:clamp(20px,1.7vw,30px)}
 .card .sm .cl label{font-size:14px;font-weight:600;text-transform:none;color:#1c2b4a}
 .card .inl .cl{min-width:0}
 .vsplit{border-left:1px solid rgba(11,27,58,.18);padding-left:16px}
@@ -185,7 +189,7 @@ form#mf{flex:1 0 auto;display:flex;flex-direction:column;gap:var(--gap)}
 @media(max-height:820px){.sidef svg{display:none}.sidef div{background:#fff}}
 @media(max-height:800px){:root{--ch:30px;--gap:5px;--pv:5px}.hero{height:50px}.hero h1{font-size:30px}.hero p{display:none}.hero.lg p{display:block}.top{height:48px}.card .body{gap:1px}.cl{min-height:13px}.cl label{font-size:12.5px}.btn,.fc{height:auto}.btn{height:40px}}
 @media(max-width:1280px){.tabs a span{display:none}.tabs a{padding:0 12px}}
-@media(max-width:1180px){.side{display:none}.cards{grid-template-columns:1fr 1fr}.cards>.k1,.cards>.k3,.cards>.k4,.cards>.k5,.cards>.k6{grid-column:auto}.cards>.k2{grid-column:span 2}.k2{grid-column:span 2}.hero h1{font-size:44px}.hero.lg h1{font-size:30px}}
+@media(max-width:1180px){.side{display:none}.cards{grid-template-columns:1fr 1fr}.cards>.k1,.cards>.k7{grid-column:auto}.cards>.k2{grid-column:span 2}.k2{grid-column:span 2}.hero h1{font-size:44px}.hero.lg h1{font-size:30px}}
 @media(max-width:900px){
 body{overflow:auto}.wrap{display:block}.main{overflow:visible}
 .top{flex-wrap:wrap;height:auto;padding:10px 14px;gap:10px}.st{display:none}
@@ -194,7 +198,7 @@ body{overflow:auto}.wrap{display:block}.main{overflow:visible}
 .dgrid{grid-template-columns:1fr}
 .panel{flex-direction:column;align-items:stretch}.ph{min-width:0}
 .grid{grid-template-columns:1fr 1fr!important}.grid>*{grid-column:auto!important}.vd>*+*{border-left:0;padding-left:0}
-.cards{grid-template-columns:1fr}.cards>.k1,.cards>.k2,.cards>.k3,.cards>.k4,.cards>.k5,.cards>.k6{grid-column:auto}.k2{grid-column:auto}
+.cards{grid-template-columns:1fr}.cards>.k1,.cards>.k2,.cards>.k7{grid-column:auto}.k2{grid-column:auto}
 .foot{flex-wrap:wrap}.fo,.fn{flex:1 1 100%}.act{flex:1 1 100%}.btn{flex:1;padding:0 12px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -238,7 +242,7 @@ dialog#acct::backdrop{background:rgba(8,22,48,.55)}
 .dlg .row #acReset{margin-right:auto}
 .dlg .btn{height:46px;padding:0 18px;font-size:16px}
 .dlg .btn.p{min-width:0}
-@media(max-width:1500px){.st{display:none}.lo span{display:none}.lo{padding:0 14px}}
+@media(max-width:1700px){.st{display:none}.lo span{display:none}.lo{padding:0 14px}}
 
 .brand .bn{display:flex;flex-direction:column;gap:2px;text-transform:none}
 .brand .bn strong{font-size:28px;line-height:1;font-weight:800;letter-spacing:.14em;color:var(--navy)}
@@ -247,7 +251,7 @@ dialog#acct::backdrop{background:rgba(8,22,48,.55)}
 .hero.lg h1{font-size:clamp(40px,7vh,64px);letter-spacing:.14em}
 .hero.lg p.ff{font-size:clamp(16px,2.4vh,22px);font-weight:600;margin:4px 0 6px}
 .auth-card h1{font-size:44px;letter-spacing:.18em;padding-bottom:0}
-@media(max-width:1500px){.brand .bn small{display:none}}
+@media(max-width:1700px){.brand .bn small{display:none}}
 
 .auth-card h1{padding-bottom:0;font-size:24px;letter-spacing:.34em;text-indent:.34em}
 .alt{align-self:center;padding:4px 8px;border:0;background:none;color:var(--acc);font:700 15px var(--ff);cursor:pointer}
@@ -279,3 +283,5 @@ dialog#acct::backdrop{background:rgba(8,22,48,.55)}
 @keyframes fly-r{0%{transform:translate(115vw,0)}50%{transform:translate(45vw,12px)}100%{transform:translate(-30vw,-6px)}}
 @media(prefers-reduced-motion:reduce){.auth>.flyer{display:none}}
 @media(max-width:520px){.two{grid-template-columns:1fr}}
+
+@media(min-width:901px){body[data-view=metar] .main{overflow:hidden}}

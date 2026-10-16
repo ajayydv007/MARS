@@ -216,17 +216,21 @@
 
 <section class="cards">
   <div class="card k1" data-k="wind"><svg class="ic"><use href="#i-wind"/></svg>
-    <div class="body"><div data-f="wind" data-u="KT" class="big"></div><div data-f="wind_maximum" class="big sm inl"></div></div></div>
+    <div class="body row"><div data-f="wind" data-u="KT" class="big"></div><div data-f="wind_maximum" class="big sm vsplit"></div></div></div>
+  <div class="card k7" data-k="wind"><svg class="ic"><use href="#i-wind"/></svg>
+    <div class="body row"><div data-f="wind_10" data-u="KT" class="big"></div><div data-f="wind_maximum_10" class="big sm vsplit"></div></div></div>
   <div class="card k2" data-k="visibility"><svg class="ic"><use href="#i-eye"/></svg>
     <div class="body row"><div data-f="visibility" class="big"></div><div data-f="sector_visibility" data-u="m" class="big sm vsplit"></div></div></div>
-  <div class="card k3" data-k="weather"><svg class="ic"><use href="#i-cloud"/></svg>
-    <div class="body"><div data-f="weather" class="big"></div></div></div>
-  <div class="card k4" data-k="weather"><svg class="ic"><use href="#i-rain"/></svg>
-    <div class="body"><div data-f="significant_weather" class="big"></div></div></div>
-  <div class="card k5" data-k="weather"><svg class="ic"><use href="#i-sun"/></svg>
-    <div class="body"><div data-f="present_weather" class="big"></div></div></div>
-  <div class="card k6" data-k="weather"><svg class="ic"><use href="#i-warn"/></svg>
-    <div class="body"><div data-f="past_weather" class="big"></div></div></div>
+</section>
+
+<section class="panel p-wx" data-k="weather">
+  <div class="ph" aria-label="Weather"><svg class="ic"><use href="#i-cloud"/></svg></div>
+  <div class="grid vd">
+    <div data-f="weather"></div>
+    <div data-f="significant_weather"></div>
+    <div data-f="present_weather"></div>
+    <div data-f="past_weather"></div>
+  </div>
 </section>
 
 <section class="panel p-rvr" data-k="active_rwy_1">

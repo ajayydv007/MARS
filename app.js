@@ -10,8 +10,10 @@ const L=[
 ['metar_date','Date',10,'',1,'','',0,'','DD/MM/YYYY · e.g. 16/10/2026 · follows Data Date & Time'],
 ['metar_time','Time (UTC)',4,'',1,'','',0,'','HHMM in UTC · e.g. 0600 · follows Data Date & Time'],
 ['metar_cca','CCA',3,'',0,'^CC[A-Z]$','',1,'CCA–CCZ','Correction indicator CCA–CCZ · leave blank if this is not a correction'],
-['wind','Wind',5,'',1,'^(00000|VRB\\d{2}|(0[1-9]|[12]\\d|3[0-6])0\\d{2})$','',1,'dddff · direction 010–360 in 10° steps','5 characters dddff · e.g. 12005 · VRB03 · 00000 · direction to nearest 10°'],
+['wind','Wind (2 min avg)',5,'',1,'^(00000|VRB\\d{2}|(0[1-9]|[12]\\d|3[0-6])0\\d{2})$','',1,'dddff · direction 010–360 in 10° steps','5 characters dddff · e.g. 12005 · VRB03 · 00000 · direction to nearest 10°'],
 ['wind_maximum','Max wind',3,'KT',0,'^\\d{1,3}$','',0,'digits only','Gust speed in knots, digits only · e.g. 15'],
+['wind_10','Wind (10 min avg)',5,'',0,'^(00000|VRB\\d{2}|(0[1-9]|[12]\\d|3[0-6])0\\d{2})$','',1,'dddff · direction 010–360 in 10° steps','Optional · 10-min mean wind, 5 characters dddff · e.g. 12005 · VRB03 · 00000 · direction to nearest 10°'],
+['wind_maximum_10','Max wind',3,'KT',0,'^\\d{1,3}$','',0,'digits only','10-min gust speed in knots, digits only · e.g. 15'],
 ['visibility','Visibility',4,'m',1,'^\\d{4}$','',0,'4 digits','4 digits, metres · e.g. 4000 · 9999 for 10 km or more'],
 ['sector_visibility','Sector visibility',14,'',0,SV,'',1,'e.g. 2000SE or 1400SW 6000N','Lowest visibility + compass point · e.g. 2000SE · a second sector after a space · e.g. 1400SW 6000N'],
 ['weather','Weather',30,'',0,'^[\\x20-\\x7E]{0,30}$','',1,'max 30 chars','METAR weather groups, max 3 groups · e.g. +SHRA BR · mandatory when visibility ≤ 5000 m'],
@@ -86,12 +88,12 @@ function vf(n){const f=F[n],v=val(n),V=vis();let m='';
  if(!m&&n=='weather'&&v.split(/\s+/).some(g=>!WG.test(g)))m='unknown weather group';
  err(n,m);return!m}
 function cross(){let ok=true;
- ['dewpoint','qfe','cloud_4','vertical_cloud','wind_maximum','weather'].forEach(n=>{if(E[n]&&/^(exceeds|4th|VV replaces|10 kt|max 3)/.test(E[n]))err(n,'')});
+ ['dewpoint','qfe','cloud_4','vertical_cloud','wind_maximum','wind_maximum_10','weather'].forEach(n=>{if(E[n]&&/^(exceeds|4th|VV replaces|10 kt|max 3)/.test(E[n]))err(n,'')});
  const T=parseFloat(val('temperature')),D=parseFloat(val('dewpoint')),N=parseFloat(val('qnh')),Q=parseFloat(val('qfe'));
  if(!isNaN(T)&&!isNaN(D)&&D>T){err('dewpoint','exceeds temperature');ok=false}
  if(!isNaN(N)&&!isNaN(Q)&&Q>N){err('qfe','exceeds QNH');ok=false}
- const g=parseInt(val('wind_maximum'),10),w=val('wind').match(/^(?:\d{3}|VRB)(\d{2})$/);
- if(!isNaN(g)&&w&&g-(+w[1])<10){err('wind_maximum','10 kt or more above mean ('+(+w[1])+')');ok=false}
+ [['wind','wind_maximum'],['wind_10','wind_maximum_10']].forEach(([wn,gn])=>{const g=parseInt(val(gn),10),w=val(wn).match(/^(?:\d{3}|VRB)(\d{2})$/);
+ if(!isNaN(g)&&w&&g-(+w[1])<10){err(gn,'10 kt or more above mean ('+(+w[1])+')');ok=false}});
  const cl=[1,2,3,4].map(k=>val('cloud_'+k)).filter(Boolean);
  if(cl.filter(x=>!/(CB|TCU)$/.test(x)).length>3){err('cloud_4','4th layer only for CB / TCU');ok=false}
  if(val('vertical_cloud')&&cl.length){err('vertical_cloud','VV replaces cloud groups');ok=false}
@@ -216,8 +218,21 @@ function route(){
  $$('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v==v));
  $('#main').scrollTop=0;hideTip();
  if(v=='login'){$('#id_station').classList.remove('lock');setTimeout(()=>mode('login'),0)}
- else{applySess();$('#id_station').classList.add('lock');if(v=='metar')setNow()}}
+ else{applySess();$('#id_station').classList.add('lock');if(v=='metar')setNow()}
+ fitL()}
 window.addEventListener('hashchange',route);
+/* fit METAR form in one screen (no scroll) at any browser size */
+function fit(){const v=$('#v-metar'),m=$('#main');
+ v.style.cssText=v.style.cssText.replace(/(zoom|transform|transform-origin|width|height|flex)[^;]*;?/g,'');
+ if(document.body.dataset.view!='metar'||innerWidth<=900)return;
+ const cs=getComputedStyle(m),aH=m.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),aW=m.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+ const z=Math.min(1,aH/v.scrollHeight,aW/v.scrollWidth);if(z>=.999)return;
+ const q=Math.floor(z*1000)/1000-.003;
+ if(CSS.supports('zoom','.5'))v.style.zoom=q;
+ else{v.style.cssText+=`;flex:none;width:${aW/q}px;height:${aH/q}px;transform:scale(${q});transform-origin:0 0`}}
+let ft=0;const fitL=()=>{cancelAnimationFrame(ft);ft=requestAnimationFrame(fit)};
+window.addEventListener('resize',fitL);window.addEventListener('load',fitL);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitL);
+
 
 setNow();rwy();cavok();route();
 })();
