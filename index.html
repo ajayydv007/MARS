@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="logo/logo.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="sop.css">
+<link rel="stylesheet" href="flow.css">
 </head>
 <body data-view="login" data-sec="all">
 
@@ -54,6 +55,10 @@
 <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7M9 11h7"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 <symbol id="i-go" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="7.5 12.5 10.5 15.5 16.5 9"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
 </defs></svg>
 
 <div class="top">
@@ -92,6 +97,10 @@
     <a href="#" data-k="trend"><svg class="ic"><use href="#i-chart"/></svg>Trend</a>
     <a href="#" data-k="remarks"><svg class="ic"><use href="#i-msg"/></svg>RMK</a>
     <button type="button" class="sopbtn" id="sopBtn" title="Standard Observational Procedure"><svg class="ic"><use href="#i-book"/></svg>SOP</button>
+  </div>
+  <div class="sg" id="sg-flow">
+    <a href="#metar"><svg class="ic"><use href="#i-doc"/></svg>Edit report</a>
+    <a href="#dashboard"><svg class="ic"><use href="#i-home"/></svg>Dashboard</a>
   </div>
   <div class="sidef">
     <svg viewBox="0 0 196 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -164,6 +173,7 @@
   <section class="dgrid">
     <article class="tile k1" id="s-av"><svg class="ic"><use href="#i-plane"/></svg>
       <div class="tb"><h3>Aviation message</h3><p>Routine and special aerodrome weather reports</p>
+        <p class="lastm" id="lastMetar" hidden></p>
         <div class="row"><a class="btn p" href="#metar"><svg class="ic"><use href="#i-send"/></svg>Submit METAR/SPECI</a></div></div></article>
 
     <article class="tile k2" id="s-syn"><svg class="ic"><use href="#i-gauge"/></svg>
@@ -279,6 +289,53 @@
 </form>
 </div>
 
+<div class="view" id="v-review">
+<section class="hero">
+  <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+  <div><h1 id="rvI">----</h1><p id="rvN"></p></div>
+  <span class="tbadge" id="rvT">METAR</span>
+  <div class="steps"><span class="stp dn"><i>1</i>Fill report</span><span class="stp on"><i>2</i>Review</span><span class="stp "><i>3</i>Done</span></div>
+</section>
+<section class="panel p-mstr" aria-label="Complete METAR">
+  <div class="ph"><svg class="ic"><use href="#i-doc"/></svg><span>Complete message</span></div>
+  <div class="mstr" id="rvStr"></div>
+</section>
+<section class="panel p-kv">
+  <div class="kvg" id="rvKv"></div>
+</section>
+<p class="banerr" id="rvErr" role="alert" hidden></p>
+<div class="rvact">
+  <p>Check the message carefully. <b>BACK</b> keeps everything you typed.</p>
+  <button type="button" class="btn" id="rvBack"><svg class="ic"><use href="#i-back"/></svg>BACK</button>
+  <button type="button" class="btn p" id="rvSubmit"><svg class="ic"><use href="#i-send"/></svg><span>SUBMIT</span></button>
+</div>
+</div>
+
+<div class="view" id="v-done">
+<section class="hero">
+  <svg class="bg" aria-hidden="true"><use href="#hero-art" width="100%" height="100%"/></svg>
+  <div><h1 id="dnI">----</h1><p id="dnN"></p></div>
+  <span class="tbadge" id="dnT">METAR</span>
+  <div class="steps"><span class="stp dn"><i>1</i>Fill report</span><span class="stp dn"><i>2</i>Review</span><span class="stp on"><i>3</i>Done</span></div>
+</section>
+<section class="okban" role="status">
+  <svg class="ic"><use href="#i-check"/></svg>
+  <div><h2 id="dnH">Successfully submitted</h2><p id="dnSub"></p></div>
+</section>
+<section class="panel p-ok" aria-label="Submitted METAR">
+  <div class="ph"><svg class="ic"><use href="#i-doc"/></svg><span>Message</span></div>
+  <div class="mstr" id="dnStr"></div>
+  <button type="button" class="btn" id="dnCopy"><svg class="ic"><use href="#i-copy"/></svg><span>Copy</span></button>
+</section>
+<p class="demo" id="dnDemo" hidden>Preview mode: no server is connected, so this report was not actually sent.</p>
+<section class="acts">
+  <a class="abtn k1" href="#dashboard"><svg class="ic"><use href="#i-home"/></svg><b>Dashboard</b></a>
+  <a class="abtn k4" href="#metar"><svg class="ic"><use href="#i-plane"/></svg><b>Submit METAR/SPECI</b></a>
+  <a class="abtn k3" id="dnP2" href="#" target="_blank" rel="noopener"><svg class="ic"><use href="#i-print"/></svg><b>PRINT (2 PAGES)</b></a>
+  <a class="abtn k5" id="dnP1" href="#" target="_blank" rel="noopener"><svg class="ic"><use href="#i-print"/></svg><b>PRINT (SINGLE PAGE)</b></a>
+</section>
+</div>
+
 </main>
 </div>
 
@@ -310,5 +367,6 @@
 </dialog>
 <script src="app.js"></script>
 <script src="sop.js"></script>
+<script src="flow.js"></script>
 </body>
 </html>

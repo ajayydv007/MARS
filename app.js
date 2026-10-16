@@ -110,14 +110,15 @@ Object.keys(F).forEach(n=>{const el=id(n);
 function autoWx(){const c=wxTop(val('weather'));['significant_weather','present_weather'].forEach(n=>{const i=id(n);if(i.value===(i.dataset.a||'')){i.value=c;i.dataset.a=c;if(E[n])err(n,'')}})}
 id('weather').addEventListener('input',autoWx);
 
-$('#mf').addEventListener('submit',e=>{let ok=true;
- const t=parseDT(val('data_datetime')),sp=$('[name=metar_specification]:checked').value,now=Date.now();let m='';
+function timeErr(){const t=parseDT(val('data_datetime')),sp=$('[name=metar_specification]:checked').value,now=Date.now();let m='';
  if(t!==null){if(sp=='METAR'){if(t<now-30*6e4)m='>30 min in the past';else if(t>now+20*6e4)m='>20 min in the future'}else if(t<now-10*6e4)m='>10 min before now'}
- err('data_datetime',m);if(m)ok=false;
+ return m}
+$('#mf').addEventListener('submit',e=>{e.preventDefault();let ok=true;
+ const m=timeErr();err('data_datetime',m);if(m)ok=false;
  const o=val('tower_met_officer');err('tower_met_officer',o?'':'required');if(!o)ok=false;
  Object.keys(F).forEach(n=>{if(!vf(n))ok=false});if(!cross())ok=false;
- if(!ok){e.preventDefault();show();const b=$('.cell.bad input,.fc.bad input');b&&b.focus();return}
- Object.keys(F).forEach(n=>{const i=id(n);if(n=='cloud_1'&&val('vertical_cloud'))return;if(!i.disabled&&!i.value.trim()&&F[n][6])i.value=F[n][6]})});
+ if(!ok){show();const b=$('.cell.bad input,.fc.bad input');b&&b.focus();return}
+ SS.set('md_pend','1');location.hash='#review'});
 $('#mf').addEventListener('reset',()=>setTimeout(()=>{Object.keys(E).forEach(k=>err(k,''));['significant_weather','present_weather'].forEach(n=>{id(n).dataset.a=''});rwy();cavok()},0));
 
 const nav=$$('#sg-metar a');
@@ -210,22 +211,28 @@ $('#acForm').addEventListener('submit',e=>{e.preventDefault();const k=sk();if(!k
  if(p!=c)return acMsg('Passwords do not match');
  LS.set('md_cred_'+k,JSON.stringify({u,h:p?hs('md|'+p):acct(k).h}));applySess();acMsg('Saved in this browser',1);setTimeout(()=>dlg.close(),900)});
 
+let pv='';
 function route(){
- const k=sk(),h=location.hash,v=h=='#metar'?'metar':h=='#login'?'login':'dash';
+ const k=sk(),h=location.hash,v=({'#metar':'metar','#review':'review','#done':'done','#login':'login'})[h]||'dash';
  if(!k&&v!='login'){location.hash='#login';return}
  if(k&&v=='login'){location.hash='#dashboard';return}
+ if(v=='review'&&!SS.get('md_pend')){location.hash='#metar';return}
+ if(v=='done'&&!SS.get('md_last')){location.hash='#metar';return}
+ if(v=='metar')SS.del('md_pend');
  document.body.dataset.view=v;
- $$('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v==v));
+ const tv=v=='review'||v=='done'?'metar':v;
+ $$('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.v==tv));
  $('#main').scrollTop=0;hideTip();
  if(v=='login'){$('#id_station').classList.remove('lock');setTimeout(()=>mode('login'),0)}
- else{applySess();$('#id_station').classList.add('lock');if(v=='metar')setNow()}
- fitL()}
+ else{applySess();$('#id_station').classList.add('lock');if(v=='metar'&&pv!='review')setNow();
+  if(window.MARS_VIEW&&MARS_VIEW[v])MARS_VIEW[v]()}
+ pv=v;fitL()}
 window.addEventListener('hashchange',route);
 /* fit METAR form in one screen (no scroll) at any browser size */
-function fit(){const v=$('#v-metar'),m=$('#main');
- v.style.cssText=v.style.cssText.replace(/(zoom|transform|transform-origin|width|height|flex)[^;]*;?/g,'');
- if(document.body.dataset.view!='metar'||innerWidth<=900)return;
- const cs=getComputedStyle(m),aH=m.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),aW=m.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+function fit(){const m=$('#main'),vw=document.body.dataset.view;
+ $$('.view').forEach(x=>{x.style.cssText=''});
+ if(!/^(metar|review|done)$/.test(vw)||innerWidth<=900)return;
+ const v=$('#v-'+vw),cs=getComputedStyle(m),aH=m.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),aW=m.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
  const z=Math.min(1,aH/v.scrollHeight,aW/v.scrollWidth);if(z>=.999)return;
  const q=Math.floor(z*1000)/1000-.003;
  if(CSS.supports('zoom','.5'))v.style.zoom=q;
@@ -234,5 +241,6 @@ let ft=0;const fitL=()=>{cancelAnimationFrame(ft);ft=requestAnimationFrame(fit)}
 window.addEventListener('resize',fitL);window.addEventListener('load',fitL);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitL);
 
 
+window.MARS={F,val,setNow,timeErr,route,fit:fitL,SS,LS,sk,ST};
 setNow();rwy();cavok();route();
 })();
